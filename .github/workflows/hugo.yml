@@ -41,6 +41,6 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           force: true
           branch: main
-          github_url: https://github.com/thatsmeadarsh/thatsmeadarsh.github.io
+          github_url: https://github.com/thatsmeadarsh/thatsmeadarsh.github.io.git
           push_to_submodules: on-demand
           directory: public
