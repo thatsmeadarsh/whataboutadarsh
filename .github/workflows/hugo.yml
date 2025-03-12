@@ -12,12 +12,16 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    permissions:
+      contents: write  
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
         with:
           submodules: true
           fetch-depth: 0
+          persist-credentials: false
 
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@v2
@@ -38,7 +42,7 @@ jobs:
       - name: Push changes
         uses: ad-m/github-push-action@master
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
           force: true
           branch: main
           repository: thatsmeadarsh/thatsmeadarsh.github.io
