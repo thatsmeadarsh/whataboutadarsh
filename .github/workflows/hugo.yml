@@ -34,13 +34,11 @@ jobs:
           git config --local user.name "github-actions[bot]"
           git add public
           git commit -m "Update public folder" || echo "No changes to commit"
-
-      - name: Push changes
-        uses: ad-m/github-push-action@master
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          force: true
-          branch: main
-          github_url: https://github.com/thatsmeadarsh/thatsmeadarsh.github.io.git
-          push_to_submodules: on-demand
-          directory: public
+          - name: Push changes
+            uses: ad-m/github-push-action@master
+            with:
+              github_token: ${{ secrets.GITHUB_TOKEN }}
+              force: true
+              branch: main
+              repository: thatsmeadarsh/thatsmeadarsh.github.io
+              directory: public
