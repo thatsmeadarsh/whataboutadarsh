@@ -41,5 +41,5 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           force: true
           branch: main
-          repository: thatsmeadarsh/whataboutadarsh
+          repository: thatsmeadarsh/thatsmeadarsh.github.io
           directory: public
