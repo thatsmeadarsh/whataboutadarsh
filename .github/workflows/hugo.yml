@@ -1,4 +1,3 @@
-
 name: Build Hugo Site
 
 on:
@@ -35,10 +34,8 @@ jobs:
           git config --local user.name "github-actions[bot]"
           git add public
           git commit -m "Update public folder" || echo "No changes to commit"
-        
-        - name: Push changes
-  uses: ad-m/github-push-action@main
-  with:
-    github_token: ${{ secrets.GITHUB_TOKEN }}
 
-        
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
