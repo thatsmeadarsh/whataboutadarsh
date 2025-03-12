@@ -1,18 +1,51 @@
-baseURL = 'https://thatsmeadarsh.github.io/'
-languageCode = 'en-us'
-title = 'What About Adarsh'
-theme = 'ananke'
+name: Build Hugo Site
 
-[menu]
-[[menu.main]]
-  identifier = 'about'
-  name = 'About us'
-  url = '/about/'
-[[menu.main]]
-  identifier = 'posts'
-  name = 'Articles'
-  url = '/posts/'
-[[menu.main]]
-  identifier = 'services'
-  name = 'Services'
-  url = '/services/'
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write  
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          submodules: true
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v2
+        with:
+          hugo-version: 'latest'
+          extended: true
+
+      - name: Build Hugo site
+        run: hugo
+
+      - name: Commit public folder
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add public
+          git commit -m "Update public folder" || echo "No changes to commit"
+      
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          force: true
+          branch: main
+          repository: thatsmeadarsh/thatsmeadarsh.github.io
+          directory: public
+          github_url: https://github.com
+          push_to_submodules: on-demand
