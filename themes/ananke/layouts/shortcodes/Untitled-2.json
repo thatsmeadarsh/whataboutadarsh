@@ -1,0 +1,72 @@
+{
+  "fields": {
+    "serviceDescription": {
+      "content": [
+        {
+          "content": [
+            {
+              "data": {},
+              "marks": [],
+              "nodeType": "text",
+              "value": "Do not be hesitated to contact us if you have any question or concern about our templates."
+            }
+          ],
+          "data": {},
+          "nodeType": "paragraph"
+        }
+      ],
+      "data": {},
+      "nodeType": "document"
+    },
+    "serviceHeading": "Fast Customer Support duplicate",
+    "serviceIcon": {
+      "sys": {
+        "id": "7yFKbCeyDm2YaZaXkNDuuo",
+        "linkType": "Asset",
+        "type": "Link"
+      }
+    }
+  },
+  "metadata": {
+    "concepts": [],
+    "tags": [
+      {
+        "sys": {
+          "id": "serviceItem",
+          "linkType": "Tag",
+          "type": "Link"
+        }
+      }
+    ]
+  },
+  "sys": {
+    "contentType": {
+      "sys": {
+        "id": "serviceList",
+        "linkType": "ContentType",
+        "type": "Link"
+      }
+    },
+    "createdAt": "2025-02-28T07:19:27.346Z",
+    "environment": {
+      "sys": {
+        "id": "master",
+        "linkType": "Environment",
+        "type": "Link"
+      }
+    },
+    "id": "1uWd1SnsVCDByg8gYLrblN",
+    "locale": "en-US",
+    "publishedVersion": 2,
+    "revision": 1,
+    "space": {
+      "sys": {
+        "id": "tou0drc8pcuj",
+        "linkType": "Space",
+        "type": "Link"
+      }
+    },
+    "type": "Entry",
+    "updatedAt": "2025-02-28T07:19:27.346Z"
+  }
+}

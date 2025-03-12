@@ -1,0 +1,13 @@
+{{ range .Site.Data.services }}
+    <div class="col-md-4">
+        <div class="service-box">
+            <i class="fa fa-4x fa-diamond wow bounceIn text-primary"></i>
+            <h2>{{ .serviceHeading }}</h2>
+            {{ range .serviceDescription.content }}
+                {{ range .content }}
+                    <p> {{ .value }}</p>
+                {{ end }}
+            {{ end }}
+        </div>
+    </div>
+{{ end }}

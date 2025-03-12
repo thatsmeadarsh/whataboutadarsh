@@ -1,0 +1,18 @@
+baseURL = 'https://thatsmeadarsh.github.io/'
+languageCode = 'en-us'
+title = 'What About Adarsh'
+theme = 'ananke'
+
+[menu]
+[[menu.main]]
+  identifier = 'about'
+  name = 'About us'
+  url = '/about/'
+[[menu.main]]
+  identifier = 'posts'
+  name = 'Articles'
+  url = '/posts/'
+[[menu.main]]
+  identifier = 'services'
+  name = 'Services'
+  url = '/services/'

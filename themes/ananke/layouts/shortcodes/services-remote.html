@@ -1,0 +1,20 @@
+{{ $url := "https://thatsmeadarsh.github.io/services1.json?q=1" }}
+{{ $options := dict "mediaType" "application/json" }}
+{{ $json := resources.GetRemote $url $options | transform.Unmarshal }}
+{{  $json }}
+    <div class="col-md-4">
+        <div class="service-box">
+            <i class="fa fa-4x fa-diamond wow bounceIn text-primary"></i>
+            <pre>{{ $json | jsonify }}</pre>
+            <h2>{{ .serviceHeading }}</h2>
+            {{ range .serviceDescription.content }}
+                {{ range .content }}
+                    <p> {{ .value }}</p>
+                {{ end }}
+            {{ end }}
+        </div>
+    </div>
+
+
+
+
