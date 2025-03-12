@@ -1,4 +1,4 @@
-{{ $url := "https://thatsmeadarsh.github.io/services1.json?q=1" }}
+{{ $url := "https://cdn.contentful.com/spaces/tou0drc8pcuj/environments/master/entries/1uWd1SnsVCDByg8gYLrblN?access_token=qPQNcwjAXRR2ljhdpYO-mcN8VayaEBVwCusGEyLHsqk?q=1" }}
 {{ $options := dict "mediaType" "application/json" }}
 {{ $json := resources.GetRemote $url $options | transform.Unmarshal }}
 {{  $json }}
