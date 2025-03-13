@@ -46,6 +46,6 @@ jobs:
           force: true
           branch: main
           repository: thatsmeadarsh/thatsmeadarsh.github.io
-          directory: public
+          directory: public/
           github_url: https://github.com
           push_to_submodules: on-demand
