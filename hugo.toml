@@ -6,6 +6,9 @@ theme = 'ananke'
 [mediaTypes]
   [mediaTypes."application/vnd.contentful.management.v1+json"]
     suffixes = [""]
+
+  [mediaTypes."application/vnd.api+json"]
+    suffixes = [""]
     
 [menu]
 [[menu.main]]
