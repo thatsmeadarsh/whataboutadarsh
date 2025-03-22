@@ -6,4 +6,4 @@ draft: false
 
 
 
-{{< services-local >}}
+{{< services-remote >}}
