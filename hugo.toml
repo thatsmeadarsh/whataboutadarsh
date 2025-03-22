@@ -3,6 +3,10 @@ languageCode = 'en-us'
 title = 'What About Adarsh'
 theme = 'ananke'
 
+[mediaTypes]
+  [mediaTypes."application/json"]
+    suffixes = [""]
+    
 [menu]
 [[menu.main]]
   identifier = 'about'
