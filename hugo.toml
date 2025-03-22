@@ -4,7 +4,7 @@ title = 'What About Adarsh'
 theme = 'ananke'
 
 [mediaTypes]
-  [mediaTypes."application/json"]
+  [mediaTypes."application/vnd.contentful.management.v1+json"]
     suffixes = [""]
     
 [menu]
