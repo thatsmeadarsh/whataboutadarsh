@@ -1,7 +1,11 @@
 {{ $url := "https://cdn.contentful.com/spaces/tou0drc8pcuj/environments/master/entries/1uWd1SnsVCDByg8gYLrblN?access_token=qPQNcwjAXRR2ljhdpYO-mcN8VayaEBVwCusGEyLHsqk" }}
-{{ $options := dict "mediaType" "application/json" }}
-{{ $json := resources.GetRemote $url $options | transform.Unmarshal }}
-{{  $json }}
+{{ $json := getJSON $url }}
+
+{{ $json := GetRemote $url }}
+{{ $json := transform.Unmarshal $remoteData }}
+
+
+
 <div class="col-md-4">
     <div class="service-box">
         <i class="fa fa-4x fa-diamond wow bounceIn text-primary"></i>
