@@ -2,7 +2,7 @@
 {{ $json := getJSON $url }}
 
 {{ $json := resources.GetRemote $url }}
-{{ $json := transform.Unmarshal $remoteData }}
+{{ $json := transform.Unmarshal $json }}
 
 
 
