@@ -1,9 +1,6 @@
 {{ $url := "https://cdn.contentful.com/spaces/tou0drc8pcuj/environments/master/entries/1uWd1SnsVCDByg8gYLrblN?access_token=qPQNcwjAXRR2ljhdpYO-mcN8VayaEBVwCusGEyLHsqk" }}
-{{ $json := getJSON $url }}
-
-
-
-
+{{ $remoteData := resources.GetRemote $url }}
+{{ $json := $remoteData | transform.Unmarshal }}
 
 <div class="col-md-4">
     <div class="service-box">
