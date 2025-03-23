@@ -6,11 +6,6 @@
     <div class="service-box">
         <i class="fa fa-4x fa-diamond wow bounceIn text-primary"></i>
         <pre>{{ $json | jsonify }}</pre>
-        <h2>{{ $json.fields.serviceHeading }}</h2>
-        {{ range $json.fields.serviceDescription.content }}
-            {{ range .content }}
-                <p>{{ .value }}</p>
-            {{ end }}
-        {{ end }}
+    
     </div>
 </div>
