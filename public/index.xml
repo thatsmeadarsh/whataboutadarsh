@@ -15,12 +15,5 @@
       <guid>https://thatsmeadarsh.github.io/services/</guid>
       <description>&lt;div class=&#34;col-md-4&#34;&gt;&#xA;        &lt;div class=&#34;service-box&#34;&gt;&#xA;            &lt;i class=&#34;fa fa-4x fa-diamond wow bounceIn text-primary&#34;&gt;&lt;/i&gt;&#xA;            &lt;h2&gt;Fast Customer Support duplicate&lt;/h2&gt;&#xA;            &#xA;                &#xA;                    &lt;p&gt; This content is configured at the  Contentful CMS&lt;/p&gt;&#xA;                &#xA;            &#xA;        &lt;/div&gt;&#xA;    &lt;/div&gt;&#xA;&#xA;    &lt;div class=&#34;col-md-4&#34;&gt;&#xA;        &lt;div class=&#34;service-box&#34;&gt;&#xA;            &lt;i class=&#34;fa fa-4x fa-diamond wow bounceIn text-primary&#34;&gt;&lt;/i&gt;&#xA;            &lt;h2&gt;&lt;/h2&gt;&#xA;            &#xA;        &lt;/div&gt;&#xA;    &lt;/div&gt;&#xA;&#xA;    &lt;div class=&#34;col-md-4&#34;&gt;&#xA;        &lt;div class=&#34;service-box&#34;&gt;&#xA;            &lt;i class=&#34;fa fa-4x fa-diamond wow bounceIn text-primary&#34;&gt;&lt;/i&gt;&#xA;            &lt;h2&gt;&lt;/h2&gt;&#xA;            &#xA;        &lt;/div&gt;&#xA;    &lt;/div&gt;</description>
     </item>
-    <item>
-      <title>My First Post</title>
-      <link>https://thatsmeadarsh.github.io/posts/my-first-post/</link>
-      <pubDate>Sun, 14 Jan 2024 07:07:07 +0100</pubDate>
-      <guid>https://thatsmeadarsh.github.io/posts/my-first-post/</guid>
-      <description>&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;&#xA;&lt;p&gt;This is &lt;strong&gt;bold&lt;/strong&gt; text, and this is &lt;em&gt;emphasized&lt;/em&gt; text.&lt;/p&gt;&#xA;&lt;p&gt;Visit the &lt;a href=&#34;https://thatsmeadarsh.github.io&#34;&gt;Hugo&lt;/a&gt; website!&lt;/p&gt;</description>
-    </item>
   </channel>
 </rss>
