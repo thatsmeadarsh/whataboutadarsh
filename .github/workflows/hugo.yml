@@ -51,6 +51,10 @@ jobs:
           branch: main
           directory: data/
 
+      - name: Delete Hugo cache
+        run: |
+          rm -rf resources/_gen
+
       - name: Build Hugo site
         run: hugo
 
