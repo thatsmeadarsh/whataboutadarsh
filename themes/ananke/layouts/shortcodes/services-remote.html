@@ -1,4 +1,4 @@
-{{ $url := "https://cdn.contentful.com/spaces/tou0drc8pcuj/environments/master/entries/1uWd1SnsVCDByg8gYLrblN?access_token=qPQNcwjAXRR2ljhdpYO-mcN8VayaEBVwCusGEyLHsqk" }}
+{{ $url := "https://github.com/thatsmeadarsh/whataboutadarsh/blob/main/sample.json" }}
 {{ $remoteData := resources.GetRemote $url (dict "mediaType" "application/json") }}
 {{ $json := $remoteData | transform.Unmarshal }}
 
