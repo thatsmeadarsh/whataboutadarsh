@@ -5,7 +5,6 @@ draft = false
 +++
 ## Building a Dynamic SSG Website: Contentful, Hugo, Automated Deployment with GitHub Actions
 
-This is **bold** text, and this is *emphasized* text.
 
 **Implementing a Static Site with Contentful CMS and Hugo: A Technical Overview**
 
