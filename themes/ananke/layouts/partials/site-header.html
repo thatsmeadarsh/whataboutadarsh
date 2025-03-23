@@ -20,17 +20,17 @@
   </header>
 {{ else }}
   <header>
-    <div class="pb3-m pb6-l {{ .Site.Params.background_color_class | default "bg-black" }}">
+   <div class="pb3-m pb6-l {{ .Site.Params.background_color_class | default "bg-black" }}" style="background-image: url('https://github.com/thatsmeadarsh/whataboutadarsh/blob/main/themes/ananke/images/munnar-bg.jpg'); background-size: cover; background-position: center;">
       {{ partial "site-navigation.html" . }}
       <div class="tc-l pv3 ph3 ph4-ns">
-        <h1 class="f2 f-subheadline-l fw2 light-silver mb0 lh-title">
-          {{ .Title | default .Site.Title }}
-        </h1>
-        {{ with .Params.description }}
-          <h2 class="fw1 f5 f3-l white-80 measure-wide-l center lh-copy mt3 mb4">
-            {{ . }}
-          </h2>
-        {{ end }}
+      <h1 class="f2 f-subheadline-l fw2 light-silver mb0 lh-title">
+        {{ .Title | default .Site.Title }}
+      </h1>
+      {{ with .Params.description }}
+        <h2 class="fw1 f5 f3-l white-80 measure-wide-l center lh-copy mt3 mb4">
+        {{ . }}
+        </h2>
+      {{ end }}
       </div>
     </div>
   </header>
