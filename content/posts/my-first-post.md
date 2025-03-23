@@ -81,4 +81,4 @@ Authentication during push operations is handled using a personal access token s
 
 This implementation exemplifies the synergy between Contentful CMS, Hugo, and GitHub Actions, providing a robust solution for dynamic content-driven static sites. By leveraging webhooks, API integrations, and automated workflows, developers can ensure their websites are consistently up-to-date and reflective of the latest content changes. The result is a streamlined, efficient, and scalable web development process that caters to both content creators and developers alike.
 
-Visit the [Adarsh](https://thatsmeadarsh.github.io) website!
+Visit the [whataboutadarsh](https://thatsmeadarsh.github.io) website!
