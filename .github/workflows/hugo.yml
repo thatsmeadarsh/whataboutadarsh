@@ -36,13 +36,13 @@ jobs:
         run: |
           mkdir -p data
           curl -o data/services-1.json 'https://cdn.contentful.com/spaces/tou0drc8pcuj/environments/master/entries/1uWd1SnsVCDByg8gYLrblN?access_token=qPQNcwjAXRR2ljhdpYO-mcN8VayaEBVwCusGEyLHsqk'
-          - name: Commit data folder
-            run: |
-              git config --local user.email "github-actions[bot]@users.noreply.github.com"
-              git config --local user.name "github-actions[bot]"
-              git add data
-              git commit -m "Update data folder" || echo "No changes to commit"
-              
+      - name: Commit data folder
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add data
+          git commit -m "Update data folder" || echo "No changes to commit"
+
       - name: Build Hugo site
         run: hugo
 
