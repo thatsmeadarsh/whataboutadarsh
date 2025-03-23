@@ -32,6 +32,11 @@ jobs:
           hugo-version: 'latest'
           extended: true
 
+      - name: Download Remote Json
+        run: |
+          mkdir -p data
+          curl -o data/services-1.json 'https://cdn.contentful.com/spaces/tou0drc8pcuj/environments/master/entries/1uWd1SnsVCDByg8gYLrblN?access_token=qPQNcwjAXRR2ljhdpYO-mcN8VayaEBVwCusGEyLHsqk'
+
       - name: Build Hugo site
         run: hugo
 
