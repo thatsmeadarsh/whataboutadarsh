@@ -1,6 +1,6 @@
 {{ $url := "https://github.com/thatsmeadarsh/whataboutadarsh/blob/main/sample.json" }}
 {{ $remoteData := resources.GetRemote $url (dict "mediaType" "application/json") }}
-{{ $json := $remoteData | transform.Unmarshal }}
+{{ $json := $remoteData }}
 
 <div class="col-md-4">
     <div class="service-box">
