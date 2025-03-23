@@ -1,11 +1,16 @@
-{{ $url := "https://github.com/thatsmeadarsh/whataboutadarsh/blob/main/sample.json" }}
-{{ $remoteData := resources.GetRemote $url (dict "mediaType" "application/json") }}
-{{ $json := $remoteData }}
-
+{{ $url := "https://cdn.contentful.com/spaces/tou0drc8pcuj/environments/master/entries/1uWd1SnsVCDByg8gYLrblN?access_token=qPQNcwjAXRR2ljhdpYO-mcN8VayaEBVwCusGEyLHsqk" }}
+{{ $options := dict "mediaType" "application/json" }}
+{{ $json := resources.GetRemote $url $options | transform.Unmarshal }}
+{{  $json }}
 <div class="col-md-4">
     <div class="service-box">
         <i class="fa fa-4x fa-diamond wow bounceIn text-primary"></i>
         <pre>{{ $json | jsonify }}</pre>
-    
+        <h2>{{ $json.fields.serviceHeading }}</h2>
+        {{ range $json.fields.serviceDescription.content }}
+            {{ range .content }}
+                <p>{{ .value }}</p>
+            {{ end }}
+        {{ end }}
     </div>
 </div>
