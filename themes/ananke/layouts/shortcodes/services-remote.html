@@ -1,5 +1,5 @@
 {{ $url := "https://cdn.contentful.com/spaces/tou0drc8pcuj/environments/master/entries/1uWd1SnsVCDByg8gYLrblN?access_token=qPQNcwjAXRR2ljhdpYO-mcN8VayaEBVwCusGEyLHsqk" }}
-{{ $headers := dict "Accept" "application/json" }}
+{{ $headers := dict "Accept" "application/vnd.contentful.management.v1+json" }}
 {{ $remoteData := resources.GetRemote $url (dict "mediaType" "application/json" "headers" $headers) }}
 {{ $json := $remoteData | transform.Unmarshal }}
 {{  $json }}
