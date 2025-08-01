@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on What About Adarsh</title>
+    <link>https://thatsmeadarsh.github.io/posts/</link>
+    <description>Recent content in Posts on What About Adarsh</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 01 Aug 2025 10:00:00 +0100</lastBuildDate>
+    <atom:link href="https://thatsmeadarsh.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>How to be Software Engineer in 2025</title>
+      <link>https://thatsmeadarsh.github.io/posts/guide-for-software-engineers-2025/</link>
+      <pubDate>Fri, 01 Aug 2025 10:00:00 +0100</pubDate>
+      <guid>https://thatsmeadarsh.github.io/posts/guide-for-software-engineers-2025/</guid>
+      <description>&lt;p&gt;I got an opportunity to do an internal presentation within my organisation. The topic I talked about was &amp;ldquo;How to be a Software Engineer in 2025?&amp;rdquo; Let me try to write this as a blog.&lt;/p&gt;&#xA;&lt;h2 id=&#34;the-evolution-of-technology-a-journey-through-time&#34;&gt;The Evolution of Technology: A Journey Through Time&lt;/h2&gt;&#xA;&lt;p&gt;Many of us have spent years in this fast-paced industry, witnessing firsthand the remarkable evolution of technology. We saw the emergence of Angular and React, transforming traditional web development beyond HTML, JavaScript, and CSS. We experienced how JSTL modernized JSPs and how ESB tools like IIB and Camel revolutionized enterprise integration. We watched as organizations shifted from legacy mainframes to agile, cloud-native systems.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>SSG Integration: Contentful, Hugo, GitHub Actions, and Pages</title>
+      <link>https://thatsmeadarsh.github.io/posts/ssg-implementation-guide/</link>
+      <pubDate>Sun, 23 Mar 2025 07:07:07 +0100</pubDate>
+      <guid>https://thatsmeadarsh.github.io/posts/ssg-implementation-guide/</guid>
+      <description>&lt;h2 id=&#34;building-a-dynamic-ssg-website-contentful-hugo-automated-deployment-with-github-actions&#34;&gt;Building a Dynamic SSG Website: Contentful, Hugo, Automated Deployment with GitHub Actions&lt;/h2&gt;&#xA;&lt;p&gt;&lt;strong&gt;Implementing a Static Site with Contentful CMS and Hugo: A Technical Overview&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;p&gt;In the realm of modern web development, the integration of Content Management Systems (CMS) with Static Site Generators (SSG) offers a powerful solution for creating dynamic content-driven websites. This article delves into the technical implementation of a website using Contentful CMS and Hugo, a popular SSG, along with GitHub Actions for continuous deployment.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>
