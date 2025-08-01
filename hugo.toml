@@ -3,6 +3,11 @@ languageCode = 'en-us'
 title = 'What About Adarsh'
 theme = 'ananke'
 
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
+
 [menu]
 
 [[menu.main]]
