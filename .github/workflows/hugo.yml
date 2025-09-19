@@ -16,16 +16,15 @@ jobs:
     runs-on: ubuntu-latest
 
     permissions:
-      contents: write
-      pages: write
-      id-token: write
+      contents: write  
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
         with:
           submodules: true
           fetch-depth: 0
+          persist-credentials: false
 
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@v2
@@ -33,25 +32,24 @@ jobs:
           hugo-version: 'latest'
           extended: true
 
-      - name: Configure Git with Personal Access Token
-        run: |
-          git config --global url."https://${{ secrets.PERSONAL_ACCESS_TOKEN }}@github.com/".insteadOf "https://github.com/"
-
       - name: Download Remote Json
         run: |
           mkdir -p data
           curl -o data/services.json 'https://cdn.contentful.com/spaces/tou0drc8pcuj/environments/master/entries/1uWd1SnsVCDByg8gYLrblN?access_token=qPQNcwjAXRR2ljhdpYO-mcN8VayaEBVwCusGEyLHsqk'
-
-      - name: Commit and push data folder
+      - name: Commit data folder
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           git add data
-          if git commit -m "Update data folder"; then
-            git push https://${{ secrets.PERSONAL_ACCESS_TOKEN }}@github.com/${{ github.repository }}.git HEAD:main
-          else
-            echo "No changes to commit in data folder"
-          fi
+          git commit -m "Update data folder" || echo "No changes to commit"
+
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          force: true
+          branch: main
+          directory: data/
 
       - name: Delete Hugo cache
         run: |
@@ -60,34 +58,32 @@ jobs:
       - name: Build Hugo site
         run: hugo
 
-      - name: Commit and push public folder
+      - name: Commit public folder
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           git add public
-          if git commit -m "Update public folder"; then
-            git push https://${{ secrets.PERSONAL_ACCESS_TOKEN }}@github.com/${{ github.repository }}.git HEAD:main
-          else
-            echo "No changes to commit in public folder"
-          fi
+          git commit -m "Update public folder" || echo "No changes to commit"
+      
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          force: true
+          branch: main
+          directory: public/
 
-      - name: Deploy to GitHub Pages repository
+      - name: Clone target repository
         run: |
-          # Clone the target repository
-          git clone https://${{ secrets.PERSONAL_ACCESS_TOKEN }}@github.com/thatsmeadarsh/thatsmeadarsh.github.io.git target_repo
-          
-          # Clear existing content and copy new content
+          git clone https://github.com/thatsmeadarsh/thatsmeadarsh.github.io.git target_repo
+          rm -rf target_repo/*
+          cp -r public/* target_repo/
+
+      - name: Commit and push to target repository
+        run: |
           cd target_repo
-          rm -rf ./*
-          cp -r ../public/* ./
-          
-          # Configure git and commit changes
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           git add .
-          
-          if git commit -m "Update site content from $(date)"; then
-            git push
-          else
-            echo "No changes to deploy"
-          fi
+          git commit -m "Update site content" || echo "No changes to commit"
+          git push https://x-access-token:${{ secrets.PERSONAL_ACCESS_TOKEN }}@github.com/thatsmeadarsh/thatsmeadarsh.github.io.git main
