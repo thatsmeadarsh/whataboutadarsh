@@ -1,6 +1,11 @@
-# From Theory to Practice: Building Next-Gen Incident Management with MCP Architecture
-
-## Introduction
++++
+title = 'From Theory to Practice: Building Next-Gen Incident Management with MCP Architecture'
+date = 2025-09-19T10:00:00+01:00
+draft = false
+tags = ['MCP', 'AI', 'Incident Management', 'Hackathon', 'Claude Sonnet', 'Automation', 'Subagents']
+categories = ['Technology', 'AI', 'Software Engineering']
+series = ['MCP Implementation Guide']
++++
 
 In my [previous blog post](https://thatsmeadarsh.github.io/posts/guide-for-software-engineers-2025/), I explored the theoretical foundations of sustainable AI usage and introduced Model Context Protocol (MCP) as a transformative approach for software engineers. Fast forward to our recent company MCP Hackathon, where theory met reality in the most exciting way possible.
 
@@ -12,28 +17,7 @@ What started as concepts on paper became a fully functional intelligent incident
 
 Most organizations face a similar challenge with production support incidents. The manual process is time-intensive, error-prone, and doesn't scale well:
 
-```mermaid
-graph TD
-    A[P1 Incident Raised in JIRA] --> B[Operations Team Monitors]
-    B --> C[Operations Engineer Picks Up Ticket]
-    C --> D[Manual Reproduction Attempt]
-    D --> E{Issue Reproduced?}
-    E -->|No| F[Close as Cannot Reproduce]
-    E -->|Yes| G[Manual Browser Testing & Validation]
-    G --> H[Screenshot Collection]
-    H --> I[Manual Confluence Page Check]
-    I --> J[Find Weekly Support Person]
-    J --> K[Manual JIRA Comment Creation]
-    K --> L[Manual Ticket Assignment]
-    L --> M[Support Person Notification]
-
-    style A fill:#ff6666
-    style D fill:#ffcc66
-    style G fill:#ffcc66
-    style I fill:#ffcc66
-    style K fill:#ffcc66
-    style L fill:#ffcc66
-```
+{{< figure src="/images/current-state.jpeg" alt="Current State of Manual Production Support Workflow" caption="The manual, time-intensive process teams face with production incident management" width="100%" link="/images/current-state.jpeg" target="_blank" >}}
 
 ### Pain Points We Identified
 
@@ -55,56 +39,7 @@ Our solution centers around a sophisticated orchestration architecture that leve
 
 ### High-Level Architecture Overview
 
-```mermaid
-graph TB
-    subgraph "Frontend Layer"
-        WD[Web Dashboard<br/>Flask + WebSockets]
-        UI[Real-time UI<br/>Pipeline Visualization]
-    end
-
-    subgraph "Orchestration Layer"
-        OS[Orchestration Service<br/>Main Coordinator]
-        SA[Subagents<br/>Specialized AI Agents]
-    end
-
-    subgraph "Integration Layer - MCP Servers"
-        JM[JIRA MCP Server<br/>5 Optimized Tools]
-        CM[Confluence MCP Server<br/>1 Essential Tool]
-    end
-
-    subgraph "AI Processing Layer"
-        BC[AWS Bedrock Claude<br/>Agent-to-Agent Protocol]
-        AO[Azure OpenAI<br/>Log Humanization]
-    end
-
-    subgraph "Automation Layer"
-        TM[Ticket Monitor<br/>Automated Scanning]
-        SF[Support Finder<br/>Weekly Assignments]
-        PA[Playwright Automation<br/>Browser Testing]
-    end
-
-    subgraph "External Systems"
-        JIRA[(JIRA<br/>Issue Management)]
-        CONF[(Confluence<br/>Knowledge Base)]
-    end
-
-    WD --> OS
-    OS --> SA
-    SA --> BC
-    OS --> AO
-    OS --> JM
-    OS --> CM
-    OS --> TM
-    OS --> SF
-    OS --> PA
-    JM --> JIRA
-    CM --> CONF
-
-    style BC fill:#ff9999
-    style AO fill:#99ccff
-    style OS fill:#99ff99
-    style WD fill:#ffcc99
-```
+{{< figure src="/images/highlevel-arch.jpeg" alt="High-Level Architecture Overview" caption="Comprehensive architecture showing the orchestration layer, MCP servers, AI processing, and automation components" width="100%" link="/images/highlevel-arch.jpeg" target="_blank" >}}
 
 ### The MCP Foundation
 
@@ -151,83 +86,18 @@ This collaborative approach achieves:
 
 ### The New Workflow - After Our Solution
 
-```mermaid
-graph TB
-    subgraph "Automated Detection & Processing"
-        A[Automated JIRA Monitoring<br/>5-minute intervals] --> B[AI-Powered Ticket Analysis]
-        B --> C[Automated Browser Testing<br/>Playwright Integration]
-        C --> D[Screenshot & Evidence Collection]
-    end
-
-    subgraph "Intelligent Assignment"
-        E[Confluence MCP Integration] --> F[Weekly Support Person Lookup]
-        F --> G[AI-Generated Comment Creation]
-        G --> H[Automated Ticket Assignment]
-    end
-
-    subgraph "Real-time Monitoring"
-        I[Web Dashboard<br/>Live Process Visualization] --> J[WebSocket Updates]
-        J --> K[Human Oversight & Control]
-    end
-
-    D --> E
-    H --> L[Support Person Notification]
-    I --> M[Operations Team Dashboard]
-
-    style A fill:#99ff99
-    style C fill:#99ff99
-    style E fill:#99ccff
-    style G fill:#ffcc99
-    style I fill:#ff9999
-```
+{{< figure src="/images/automated-solution.jpeg" alt="Automated Solution Workflow" caption="Intelligent orchestration system with automated detection, processing, and assignment capabilities" width="100%" link="/images/automated-solution.jpeg" target="_blank" >}}
 
 ### Automated Process Flow
 
 #### Phase 1: Automated Detection
-```mermaid
-sequenceDiagram
-    participant TM as Ticket Monitor
-    participant JIRA as JIRA System
-    participant AI as AI Analysis Engine
-
-    TM->>JIRA: Poll every 5 minutes
-    JIRA-->>TM: New P1 incidents
-    TM->>AI: Analyze ticket content
-    AI-->>TM: Priority classification & reproduction steps
-```
+{{< figure src="/images/phase1.jpeg" alt="Phase 1: Automated Detection" caption="Automated JIRA monitoring and AI-powered ticket analysis workflow" width="100%" link="/images/phase1.jpeg" target="_blank" >}}
 
 #### Phase 2: Automated Validation
-```mermaid
-sequenceDiagram
-    participant OS as Orchestration Service
-    participant PW as Playwright Engine
-    participant WS as Web Screenshots
-    participant AI as AI Validation
-
-    OS->>PW: Execute reproduction steps
-    PW->>WS: Capture evidence screenshots
-    WS-->>PW: Visual validation data
-    PW-->>AI: Results for analysis
-    AI-->>OS: Validation outcome + evidence
-```
+{{< figure src="/images/phase2.jpeg" alt="Phase 2: Automated Validation" caption="Playwright automation for browser testing and screenshot evidence collection" width="100%" link="/images/phase2.jpeg" target="_blank" >}}
 
 #### Phase 3: Intelligent Assignment
-```mermaid
-sequenceDiagram
-    participant OS as Orchestration Service
-    participant CM as Confluence MCP
-    participant CONF as Confluence System
-    participant AI as AI Comment Generator
-    participant JIRA as JIRA System
-
-    OS->>CM: Get support person for current week
-    CM->>CONF: Query weekly rotation page
-    CONF-->>CM: Current support person details
-    CM-->>OS: Support person information
-    OS->>AI: Generate comprehensive comment
-    AI-->>OS: Human-readable analysis + findings
-    OS->>JIRA: Add comment + assign ticket
-```
+{{< figure src="/images/phase3.jpeg" alt="Phase 3: Intelligent Assignment" caption="MCP-powered support person lookup and AI-generated comment creation for ticket assignment" width="100%" link="/images/phase3.jpeg" target="_blank" >}}
 
 ## Smart Token Economics: Sustainability in Action
 
