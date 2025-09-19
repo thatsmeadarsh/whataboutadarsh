@@ -6,6 +6,28 @@
     <description>Recent content in Categories on What About Adarsh</description>
     <generator>Hugo</generator>
     <language>en-us</language>
+    <lastBuildDate>Fri, 19 Sep 2025 10:00:00 +0100</lastBuildDate>
     <atom:link href="https://thatsmeadarsh.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>AI</title>
+      <link>https://thatsmeadarsh.github.io/categories/ai/</link>
+      <pubDate>Fri, 19 Sep 2025 10:00:00 +0100</pubDate>
+      <guid>https://thatsmeadarsh.github.io/categories/ai/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Software Engineering</title>
+      <link>https://thatsmeadarsh.github.io/categories/software-engineering/</link>
+      <pubDate>Fri, 19 Sep 2025 10:00:00 +0100</pubDate>
+      <guid>https://thatsmeadarsh.github.io/categories/software-engineering/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Technology</title>
+      <link>https://thatsmeadarsh.github.io/categories/technology/</link>
+      <pubDate>Fri, 19 Sep 2025 10:00:00 +0100</pubDate>
+      <guid>https://thatsmeadarsh.github.io/categories/technology/</guid>
+      <description></description>
+    </item>
   </channel>
 </rss>

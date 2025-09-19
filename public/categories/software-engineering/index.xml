@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Software Engineering on What About Adarsh</title>
+    <link>https://thatsmeadarsh.github.io/categories/software-engineering/</link>
+    <description>Recent content in Software Engineering on What About Adarsh</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 19 Sep 2025 10:00:00 +0100</lastBuildDate>
+    <atom:link href="https://thatsmeadarsh.github.io/categories/software-engineering/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>From Theory to Practice: Building Next-Gen Incident Management with MCP Architecture</title>
+      <link>https://thatsmeadarsh.github.io/posts/mcp-hackathon-blog-post/</link>
+      <pubDate>Fri, 19 Sep 2025 10:00:00 +0100</pubDate>
+      <guid>https://thatsmeadarsh.github.io/posts/mcp-hackathon-blog-post/</guid>
+      <description>&lt;p&gt;In my &lt;a href=&#34;https://thatsmeadarsh.github.io/posts/guide-for-software-engineers-2025/&#34;&gt;previous blog post&lt;/a&gt;, I explored the theoretical foundations of sustainable AI usage and introduced Model Context Protocol (MCP) as a transformative approach for software engineers. Fast forward to our recent company MCP Hackathon, where theory met reality in the most exciting way possible.&lt;/p&gt;&#xA;&lt;p&gt;What started as concepts on paper became a fully functional intelligent incident management system that demonstrates the true potential of smart orchestration, agent-to-agent communication, and resource-conscious AI integration. This is the story of how we brought those ideas to life.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>
