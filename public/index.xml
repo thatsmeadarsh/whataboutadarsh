@@ -2,32 +2,39 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>What About Adarsh</title>
-    <link>http://localhost:1313/</link>
+    <link>https://thatsmeadarsh.github.io/</link>
     <description>Recent content on What About Adarsh</description>
     <generator>Hugo</generator>
     <language>en-us</language>
     <lastBuildDate>Fri, 01 Aug 2025 10:00:00 +0100</lastBuildDate>
-    <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://thatsmeadarsh.github.io/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>How to be Software Engineer in 2025</title>
-      <link>http://localhost:1313/posts/guide-for-software-engineers-2025/</link>
+      <link>https://thatsmeadarsh.github.io/posts/guide-for-software-engineers-2025/</link>
       <pubDate>Fri, 01 Aug 2025 10:00:00 +0100</pubDate>
-      <guid>http://localhost:1313/posts/guide-for-software-engineers-2025/</guid>
+      <guid>https://thatsmeadarsh.github.io/posts/guide-for-software-engineers-2025/</guid>
       <description>&lt;p&gt;I got an opportunity to do an internal presentation within my organisation. The topic I talked about was &amp;ldquo;How to be a Software Engineer in 2025?&amp;rdquo; Let me try to write this as a blog.&lt;/p&gt;&#xA;&lt;h2 id=&#34;the-evolution-of-technology-a-journey-through-time&#34;&gt;The Evolution of Technology: A Journey Through Time&lt;/h2&gt;&#xA;&lt;p&gt;Many of us have spent years in this fast-paced industry, witnessing firsthand the remarkable evolution of technology. We saw the emergence of Angular and React, transforming traditional web development beyond HTML, JavaScript, and CSS. We experienced how JSTL modernized JSPs and how ESB tools like IIB and Camel revolutionized enterprise integration. We watched as organizations shifted from legacy mainframes to agile, cloud-native systems.&lt;/p&gt;</description>
     </item>
     <item>
       <title>SSG Integration: Contentful, Hugo, GitHub Actions, and Pages</title>
-      <link>http://localhost:1313/posts/ssg-implementation-guide/</link>
+      <link>https://thatsmeadarsh.github.io/posts/ssg-implementation-guide/</link>
       <pubDate>Sun, 23 Mar 2025 07:07:07 +0100</pubDate>
-      <guid>http://localhost:1313/posts/ssg-implementation-guide/</guid>
+      <guid>https://thatsmeadarsh.github.io/posts/ssg-implementation-guide/</guid>
       <description>&lt;h2 id=&#34;building-a-dynamic-ssg-website-contentful-hugo-automated-deployment-with-github-actions&#34;&gt;Building a Dynamic SSG Website: Contentful, Hugo, Automated Deployment with GitHub Actions&lt;/h2&gt;&#xA;&lt;p&gt;&lt;strong&gt;Implementing a Static Site with Contentful CMS and Hugo: A Technical Overview&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;p&gt;In the realm of modern web development, the integration of Content Management Systems (CMS) with Static Site Generators (SSG) offers a powerful solution for creating dynamic content-driven websites. This article delves into the technical implementation of a website using Contentful CMS and Hugo, a popular SSG, along with GitHub Actions for continuous deployment.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Services</title>
-      <link>http://localhost:1313/services/</link>
+      <link>https://thatsmeadarsh.github.io/services/</link>
       <pubDate>Sun, 02 Mar 2025 11:55:49 +0530</pubDate>
-      <guid>http://localhost:1313/services/</guid>
+      <guid>https://thatsmeadarsh.github.io/services/</guid>
       <description>&lt;div class=&#34;col-md-4&#34;&gt;&#xA;        &lt;div class=&#34;service-box&#34;&gt;&#xA;            &lt;i class=&#34;fa fa-4x fa-diamond wow bounceIn text-primary&#34;&gt;&lt;/i&gt;&#xA;            &lt;h2&gt;Fast Customer Support duplicate&lt;/h2&gt;&#xA;            &#xA;                &#xA;                    &lt;p&gt; This content is configured at the  Contentful CMS. New one!. Again new content&lt;/p&gt;&#xA;                &#xA;            &#xA;        &lt;/div&gt;&#xA;    &lt;/div&gt;&#xA;&#xA;    &lt;div class=&#34;col-md-4&#34;&gt;&#xA;        &lt;div class=&#34;service-box&#34;&gt;&#xA;            &lt;i class=&#34;fa fa-4x fa-diamond wow bounceIn text-primary&#34;&gt;&lt;/i&gt;&#xA;            &lt;h2&gt;&lt;/h2&gt;&#xA;            &#xA;        &lt;/div&gt;&#xA;    &lt;/div&gt;&#xA;&#xA;    &lt;div class=&#34;col-md-4&#34;&gt;&#xA;        &lt;div class=&#34;service-box&#34;&gt;&#xA;            &lt;i class=&#34;fa fa-4x fa-diamond wow bounceIn text-primary&#34;&gt;&lt;/i&gt;&#xA;            &lt;h2&gt;&lt;/h2&gt;&#xA;            &#xA;        &lt;/div&gt;&#xA;    &lt;/div&gt;</description>
+    </item>
+    <item>
+      <title></title>
+      <link>https://thatsmeadarsh.github.io/posts/mcp-hackathon-blog-post/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://thatsmeadarsh.github.io/posts/mcp-hackathon-blog-post/</guid>
+      <description>&lt;h1 id=&#34;from-theory-to-practice-building-next-gen-incident-management-with-mcp-architecture&#34;&gt;From Theory to Practice: Building Next-Gen Incident Management with MCP Architecture&lt;/h1&gt;&#xA;&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;&#xA;&lt;p&gt;In my &lt;a href=&#34;https://thatsmeadarsh.github.io/posts/guide-for-software-engineers-2025/&#34;&gt;previous blog post&lt;/a&gt;, I explored the theoretical foundations of sustainable AI usage and introduced Model Context Protocol (MCP) as a transformative approach for software engineers. Fast forward to our recent company MCP Hackathon, where theory met reality in the most exciting way possible.&lt;/p&gt;&#xA;&lt;p&gt;What started as concepts on paper became a fully functional intelligent incident management system that demonstrates the true potential of smart orchestration, agent-to-agent communication, and resource-conscious AI integration. This is the story of how we brought those ideas to life.&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>
