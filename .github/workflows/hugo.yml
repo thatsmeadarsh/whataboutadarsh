@@ -26,13 +26,16 @@ jobs:
         with:
           submodules: true
           fetch-depth: 0
-          token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
 
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@v2
         with:
           hugo-version: 'latest'
           extended: true
+
+      - name: Configure Git with Personal Access Token
+        run: |
+          git config --global url."https://${{ secrets.PERSONAL_ACCESS_TOKEN }}@github.com/".insteadOf "https://github.com/"
 
       - name: Download Remote Json
         run: |
@@ -45,7 +48,7 @@ jobs:
           git config --local user.name "github-actions[bot]"
           git add data
           if git commit -m "Update data folder"; then
-            git push
+            git push https://${{ secrets.PERSONAL_ACCESS_TOKEN }}@github.com/${{ github.repository }}.git HEAD:main
           else
             echo "No changes to commit in data folder"
           fi
@@ -63,7 +66,7 @@ jobs:
           git config --local user.name "github-actions[bot]"
           git add public
           if git commit -m "Update public folder"; then
-            git push
+            git push https://${{ secrets.PERSONAL_ACCESS_TOKEN }}@github.com/${{ github.repository }}.git HEAD:main
           else
             echo "No changes to commit in public folder"
           fi
