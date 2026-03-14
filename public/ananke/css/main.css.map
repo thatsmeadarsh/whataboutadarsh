@@ -1,7 +1,7 @@
 {
 	"version": 3,
 	"file": "main.css",
-	"sourceRoot": "/Users/MX936NE/whataboutadarsh",
+	"sourceRoot": "/home/runner/work/whataboutadarsh/whataboutadarsh",
 	"sources": [
 		"ananke/css/main.css"
 	],
