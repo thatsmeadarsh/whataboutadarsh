@@ -6,7 +6,7 @@ tags = ['n8n', 'Automation', 'Architecture']
 categories = ['Technology', 'Automation']
 +++
 
-This post validates the split-workflow approach where draft generation and human review are decoupled into separate n8n workflows.
+This post validates testing the split-workflow approach where draft generation and human review are decoupled into separate n8n workflows.
 
 ## The Design
 
