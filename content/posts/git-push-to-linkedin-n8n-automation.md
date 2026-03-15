@@ -6,7 +6,7 @@ description = 'Build a fully automated blog-to-LinkedIn pipeline using Hugo, Git
 tags = ['n8n', 'GitHub Actions', 'Automation', 'Hugo', 'LinkedIn', 'AI', 'DevOps', 'Workflow']
 categories = ['Technology', 'Software Engineering', 'Automation']
 series = ['Building in Public']
-slug = 'zero-touch-blog-publishing-github-actions-n8n'
+slug = 'git-push-to-linkedin-n8n-automation'
 +++
 
 A few weeks ago, I got tired of the same ritual every time I published a blog post. Write the post, push to GitHub, wait for the build, check the site, then — if I remembered — draft a LinkedIn post to share it. Half the time I'd forget the LinkedIn part entirely, or I'd post it days later when the moment had already passed.
