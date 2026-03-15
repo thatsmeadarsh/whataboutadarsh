@@ -1,17 +1,19 @@
 +++
-title = 'How I Turned a git push Into a Live Blog Post and LinkedIn Announcement — Automatically'
+title = 'How I Turned a git push Into a Live Blog Post and LinkedIn Announcement — With One Review Step'
 date = 2026-03-15T10:00:00+01:00
 draft = false
+description = 'Build a fully automated blog-to-LinkedIn pipeline using Hugo, GitHub Actions, n8n, and AI — with a form-based human review gate before anything goes live.'
 tags = ['n8n', 'GitHub Actions', 'Automation', 'Hugo', 'LinkedIn', 'AI', 'DevOps', 'Workflow']
 categories = ['Technology', 'Software Engineering', 'Automation']
 series = ['Building in Public']
+slug = 'zero-touch-blog-publishing-github-actions-n8n'
 +++
 
 A few weeks ago, I got tired of the same ritual every time I published a blog post. Write the post, push to GitHub, wait for the build, check the site, then — if I remembered — draft a LinkedIn post to share it. Half the time I'd forget the LinkedIn part entirely, or I'd post it days later when the moment had already passed.
 
-So I built a system that does almost all of it for me. `git push` kicks everything off. The site builds and deploys automatically. n8n detects the new post, generates an AI-written LinkedIn announcement, and then pauses for one deliberate step: I review the draft and approve it before it goes live. That approval gate is intentional — AI-generated text is good, not always great.
+So I built a system that does almost all of it for me. `git push` kicks everything off. The site builds and deploys automatically. An n8n workflow detects the new post, generates an AI-written LinkedIn draft, and saves it to a queue. When I'm ready, I open a review form, tweak the draft if needed, and hit approve. The post goes live on LinkedIn instantly.
 
-Here's exactly how it works.
+Two n8n workflows, one approval form, zero context switching. Here's exactly how it works.
 
 ---
 
@@ -34,9 +36,9 @@ The answer turned out to be: most of it.
 
 ---
 
-## The Architecture: Two Systems, One Pipeline
+## The Architecture: Three Systems, One Pipeline
 
-The solution splits cleanly into two independent systems connected by a single bridge — the GitHub API.
+The solution splits into three systems. GitHub Actions builds and deploys. n8n Workflow 1 detects the deployment and generates an AI draft. n8n Workflow 2 presents a review form where I approve or reject before anything touches LinkedIn.
 
 ```
 Author writes markdown
@@ -59,19 +61,26 @@ Author writes markdown
         ^
         | polls every 5 min
         |
-      n8n (Docker)
+  n8n Workflow 1 (Docker)
   - Detects new commit
   - Fetches original markdown
   - AI generates LinkedIn draft
-  - Pauses for author approval
+  - Saves draft to queue
         |
-        v (after approval)
+        | draft ready
+        v
+  n8n Workflow 2 (Docker)
+  - Author opens review form
+  - Pre-filled with AI draft
+  - Edit, approve, or reject
+        |
+        v (on approve)
   LinkedIn (published immediately)
 ```
 
-{{< figure src="/images/auto-publish-01-high-level.png" alt="High-level architecture: git push triggers GitHub Actions build, n8n polls, generates AI draft, pauses for approval, then publishes to LinkedIn" caption="The full pipeline — GitHub Actions builds and deploys, n8n detects, generates, and pauses for one approval step before publishing to LinkedIn. The Pages repo commit is the only handoff between the two systems." width="100%" link="/images/auto-publish-01-high-level.png" target="_blank" >}}
+{{< figure src="/images/auto-publish-01-high-level.png" alt="High-level architecture: git push triggers GitHub Actions build, n8n WF1 polls and generates AI draft, WF2 provides form-based review before LinkedIn publish" caption="The full pipeline — GitHub Actions builds and deploys. WF1 detects, generates, and queues the draft. WF2 provides a form-based review gate. The Pages repo commit is the only handoff between GitHub Actions and n8n." width="100%" link="/images/auto-publish-01-high-level.png" target="_blank" >}}
 
-**GitHub Actions** owns everything related to building and deploying the site. **n8n** owns everything related to detecting the deployment, generating content, and publishing to LinkedIn. They don't know about each other directly — the bridge is the GitHub API.
+**GitHub Actions** owns building and deploying the site. **n8n WF1** owns detection, AI generation, and draft storage. **n8n WF2** owns the human review step and LinkedIn publishing. They communicate through the GitHub API (Actions → WF1) and n8n's internal API (WF1 → WF2).
 
 ---
 
@@ -116,11 +125,11 @@ GitHub Pages has its own Action watching the `thatsmeadarsh.github.io` repo. Whe
 
 ---
 
-## Part 2: n8n Detects, Thinks, and Posts
+## Part 2: n8n Workflow 1 — Detect and Draft
 
-n8n runs in Docker on my local machine. It has a 14-node workflow that wakes up every 5 minutes.
+WF1 runs in Docker on my local machine. It has a 10-node workflow that wakes up every 5 minutes, checks for new deployments, and generates an AI LinkedIn draft.
 
-{{< figure src="/images/n8n-workflow.png" alt="n8n workflow canvas showing all 14 nodes from schedule trigger through Wait for Approval to LinkedIn publish" caption="The complete n8n workflow — polling the GitHub API every 5 minutes, generating an AI LinkedIn draft, pausing for approval, then publishing immediately after the author resumes the execution." width="100%" link="/images/n8n-workflow.png" target="_blank" >}}
+{{< figure src="/images/generate-linkedin-draft-n8n.png" alt="n8n Workflow 1 canvas showing 10 nodes from schedule trigger through AI generation to Save Draft for Review" caption="Workflow 1 — polling the GitHub API every 5 minutes, generating an AI LinkedIn draft, and saving it to a FIFO queue for later review." width="100%" link="/images/generate-linkedin-draft-n8n.png" target="_blank" >}}
 
 ### The Polling Approach (and Why Webhooks Didn't Work)
 
@@ -134,23 +143,9 @@ Polling solved it completely. All traffic is outbound HTTPS. No tunnels, no open
 
 **The rate limit math**: GitHub allows 5,000 authenticated requests per hour. Polling every 5 minutes uses 288 requests per day — well under 0.1% of the limit.
 
-### Node 1: Schedule Trigger
+### The State Machine (Extract New Post Slugs)
 
-Wakes the workflow every 5 minutes. No configuration needed beyond the interval.
-
-### Node 2: Fetch Latest Deployment
-
-Makes a GET request to the GitHub API for the latest commit on the Pages repo:
-
-```
-GET https://api.github.com/repos/thatsmeadarsh/thatsmeadarsh.github.io/commits/main
-```
-
-The response includes the commit SHA and the full list of files changed — this is the raw material for everything that follows.
-
-### Node 3: The State Machine (Extract New Post Slugs)
-
-This is the most interesting node. It uses `$getWorkflowStaticData('global')` — n8n's mechanism for persisting data between workflow executions — to store the last processed commit SHA.
+This is the most interesting node in WF1. It uses `$getWorkflowStaticData('global')` — n8n's mechanism for persisting data between workflow executions — to store the last processed commit SHA.
 
 ```javascript
 const staticData = $getWorkflowStaticData('global');
@@ -186,7 +181,7 @@ This regex is what makes URL construction deterministic. Hugo's build output mir
 
 The slug extracted from the Pages repo file path **is** the URL path. No configuration, no mapping — it's a property of how Hugo works.
 
-### Nodes 4 & 5: Fetch and Parse the Original Markdown
+### Fetch and Parse the Original Markdown
 
 The Pages repo only has compiled HTML — all the frontmatter metadata is gone. So n8n goes back to the source repo to fetch the original markdown:
 
@@ -196,11 +191,11 @@ GET https://raw.githubusercontent.com/thatsmeadarsh/whataboutadarsh/main/content
 
 A Code node then extracts the TOML frontmatter with regex to get the title, date, tags, categories, draft status, and first 500 words of content.
 
-### Node 6: Draft Check
+### Draft Check
 
 A simple IF node: if `draft === true`, the workflow routes to a no-op Skip node. This is genuinely useful — I can push a draft post to see how it renders on the live site without accidentally announcing it on LinkedIn.
 
-### Nodes 7 & 8: AI Content Generation
+### AI Content Generation
 
 A Code node builds a structured prompt using the post's title, tags, categories, and excerpt, then sends it to HuggingFace's inference router:
 
@@ -211,23 +206,75 @@ Model: Meta-Llama-3.1-8B-Instruct
 
 The system prompt instructs the model to write a LinkedIn post in a specific style: conversational, insight-driven, with relevant hashtags, and ending with a clear call to action. The model runs on SambaNova's hardware via HuggingFace's free tier — fast and zero cost.
 
-### Nodes 9–13: Review Gate and LinkedIn Publishing
+### Save Draft for Review
 
-After formatting the AI draft, the workflow hits a **Wait node** — a built-in n8n mechanism that pauses execution indefinitely and resumes only when a specific URL is visited. The execution shows as "Waiting" in the n8n UI.
+This is where WF1 ends — and where the old architecture was completely different. Instead of publishing immediately or pausing at a Wait node, the AI-generated draft gets saved to a **FIFO queue** in n8n's static data:
 
-To approve and publish:
-1. Open `http://localhost:5678` → **Executions**
-2. Find the execution in **Waiting** state — click it
-3. In the **Wait for Approval** node output, copy the `resumeUrl`
-4. Open that URL in your browser
-5. The execution resumes immediately — n8n fetches your LinkedIn profile and publishes the post
+```javascript
+const staticData = $getWorkflowStaticData('global');
+
+const draft = {
+  title: prevData.title,
+  postUrl: prevData.postUrl,
+  linkedinText: linkedinText,
+  slug: prevData.slug,
+  createdAt: new Date().toISOString()
+};
+
+if (!staticData.pendingDrafts) {
+  staticData.pendingDrafts = [];
+}
+staticData.pendingDrafts.push(draft);
+```
+
+The draft sits in the queue until I'm ready to review it. If multiple posts are pushed before I review, they all queue up — first in, first out.
+
+---
+
+## Part 3: n8n Workflow 2 — Review and Publish
+
+WF2 is where the human comes back into the loop. It's a form-triggered workflow — always active, waiting for me to open the review form.
+
+{{< figure src="/images/review-and-publish-linkedin-n8n.png" alt="n8n Workflow 2 canvas showing form trigger, draft loading, review form, approval branching, LinkedIn publishing, and queue cleanup" caption="Workflow 2 — form-based review with pre-filled AI draft, approve/reject branching, LinkedIn publishing, and automatic queue cleanup." width="100%" link="/images/review-and-publish-linkedin-n8n.png" target="_blank" >}}
+
+### The Review Form
+
+When I'm ready to review, I open `http://localhost:5678/form/linkedin-review-form`. Page 1 is a simple "Load Latest Draft" button. Behind the scenes, WF2 calls n8n's own REST API to read WF1's static data, extracts the oldest pending draft, and pre-fills the review form on page 2.
+
+The form shows three fields — all editable:
+- **Post Title** — the blog post title
+- **Post URL** — the live blog URL
+- **LinkedIn Post Text** — the AI-generated draft
+
+I can tweak the LinkedIn text directly in the form. Fix a weird phrasing, add a personal note, adjust the tone. Then I pick **Approve** or **Reject** and submit.
+
+### Cross-Workflow Communication
+
+This is the interesting engineering part. WF2 doesn't share memory with WF1 — they're independent workflows. WF2 reads WF1's draft queue by calling n8n's public REST API:
+
+```
+GET http://localhost:5678/api/v1/workflows/{wf1-id}
+Header: X-N8N-API-KEY: {api-key}
+```
+
+The response includes WF1's `staticData`, which contains the `pendingDrafts` array. WF2 extracts the oldest draft (FIFO) and pipes it into the review form's default values.
+
+### Why Two Workflows?
+
+I originally built this as a single workflow with an n8n Form node in the middle — the AI generates the draft, then the workflow pauses and shows a form for review. It was elegant in theory. In practice, n8n 2.11.4 has a bug: any node that makes the workflow wait for external input (Wait nodes, Form nodes mid-workflow) triggers a `SQLITE_ERROR: no such column: NaN` error on resume.
+
+Splitting into two workflows avoids the bug entirely. WF1 runs to completion without pausing. WF2 starts fresh from a Form Trigger — no waiting state, no SQLite issue. As a bonus, the two-workflow design is actually cleaner: draft generation is decoupled from review, and the FIFO queue handles multiple pending drafts naturally.
+
+### Approve → LinkedIn
+
+On approval, WF2 fetches my LinkedIn profile, builds the UGC post body, and publishes immediately:
 
 ```javascript
 {
   "lifecycleState": "PUBLISHED",
   "specificContent": {
     "com.linkedin.ugc.ShareContent": {
-      "shareCommentary": { "text": aiGeneratedPost },
+      "shareCommentary": { "text": approvedLinkedinText },
       "shareMediaCategory": "ARTICLE",
       "media": [{
         "status": "READY",
@@ -239,9 +286,15 @@ To approve and publish:
 }
 ```
 
-One thing worth knowing: LinkedIn's UGC API has a `lifecycleState: SCHEDULED` option with a `scheduledPublishTime` field. I tried it. It requires LinkedIn Marketing Partner access and returns a 403 for standard developer apps. The Wait node achieves the same goal — a deliberate review window — without any special API permissions.
+LinkedIn crawls the `originalUrl` and generates the article card preview automatically. Since WF1 only fires after the Pages repo receives a new commit, the URL is already live and crawlable by the time I approve.
 
-LinkedIn crawls the `originalUrl` and generates the article card preview automatically. Since n8n only fires after a new commit appears on the Pages repo, the URL is already live and crawlable when the post publishes.
+One thing worth knowing: LinkedIn's UGC API has a `lifecycleState: SCHEDULED` option with a `scheduledPublishTime` field. I tried it. It requires LinkedIn Marketing Partner access and returns a 403 for standard developer apps. The form-based review achieves the same goal — a deliberate review window — without any special API permissions.
+
+### Reject → Clean Up
+
+If the AI draft isn't good enough, I hit reject. WF2 removes the draft from WF1's queue by calling the n8n API with a PUT request that updates the `staticData` — shifting the oldest draft off the array. The next time I open the form, the next draft in the queue loads up.
+
+Both the approve and reject paths converge on the same cleanup step, so the queue stays tidy regardless of the outcome.
 
 ---
 
@@ -251,16 +304,17 @@ The elegant part of this system is how GitHub Actions and n8n are coupled withou
 
 GitHub Actions doesn't know n8n exists. It just builds and pushes to the Pages repo — the same thing it was already doing. n8n doesn't trigger GitHub Actions. It just polls the Pages repo — a read-only operation that works regardless of what n8n is doing.
 
-The commit to the Pages repo is the signal. It means exactly one thing: the site is live. n8n reads that signal and acts on it.
+The commit to the Pages repo is the signal. It means exactly one thing: the site is live. WF1 reads that signal and acts on it. WF2 waits for the human to show up.
 
 This separation gives you fault isolation for free:
 
 | What fails | Website impact | LinkedIn impact |
 |---|---|---|
-| GitHub Actions build fails | Site not updated | n8n sees no new commit — no action taken |
-| n8n crashes | None | Poll resumes on next restart |
+| GitHub Actions build fails | Site not updated | WF1 sees no new commit — no action taken |
+| n8n WF1 crashes | None | Poll resumes on next restart |
+| n8n WF2 form not opened | None | Draft stays in queue until reviewed |
 | LinkedIn API error | None | Post not created; website already live |
-| HuggingFace API down | None | Fallback text used for LinkedIn post |
+| HuggingFace API down | None | Fallback text saved to draft queue |
 
 ---
 
@@ -268,9 +322,11 @@ This separation gives you fault isolation for free:
 
 **Corporate networks are more hostile than you think.** My initial webhook-based design worked perfectly on a home connection. It broke completely in the office. The polling rewrite took an afternoon and eliminated all external dependencies on inbound connectivity.
 
-**Static data in n8n is powerful but invisible.** The `$getWorkflowStaticData()` function persists to the Docker volume — it survives container restarts and n8n updates. It's exactly right for tracking "last processed commit SHA." The catch: if you ever need to reset it, you have to do it through a workflow execution or directly in the database.
+**n8n's Wait node has a SQLite bug in 2.11.4.** Any workflow that pauses for external input — Wait nodes, Form nodes mid-workflow — triggers `SQLITE_ERROR: no such column: NaN` on resume. The fix was splitting into two workflows. WF1 runs to completion. WF2 starts fresh from a Form Trigger. The bug turned out to be a design gift — the two-workflow architecture is cleaner and handles edge cases (like multiple pending drafts) that the single-workflow version couldn't.
 
-**An approval gate beats both immediate and scheduled posts.** I tried LinkedIn's scheduled post API first — it requires Marketing Partner access and throws a 403 for standard developer apps. I almost fell back to posting immediately. Instead I used n8n's Wait node: the execution pauses, I review the AI draft in the n8n UI, and I approve when I'm happy with it. It gives me a real review window without any special API permissions, and the post goes live on my timeline rather than a fixed 24h delay.
+**Static data in n8n is powerful but invisible.** The `$getWorkflowStaticData()` function persists to the Docker volume — it survives container restarts and n8n updates. It's exactly right for tracking "last processed commit SHA" and a draft queue. The catch: if you ever need to inspect or reset it, you have to do it through the n8n API or a workflow execution.
+
+**A review form beats a resumeUrl.** My first approval mechanism required copying a webhook URL from n8n's execution detail view and opening it in a browser. It worked but felt fragile and unintuitive. The form-based review in WF2 is a proper UI: pre-filled fields, inline editing, approve/reject buttons. It took more engineering (cross-workflow API calls, FIFO queue management) but the UX is dramatically better.
 
 **Two-repo Hugo deployments are the right call.** Keeping the source (with frontmatter, drafts, config) separate from the built output (pure HTML) makes a lot of things cleaner. n8n can read from the source repo for markdown context while watching the Pages repo for deployment signals. They serve different purposes.
 
@@ -284,16 +340,18 @@ This separation gives you fault isolation for free:
 |---|---|---|
 | Static site generator | Hugo | Markdown to HTML |
 | Build & deploy | GitHub Actions | CI/CD pipeline |
-| Automation engine | n8n 2.11.4 (Docker) | Workflow orchestration |
+| Draft generation | n8n WF1 (Docker) | Poll, detect, AI generate, queue draft |
+| Review & publish | n8n WF2 (Docker) | Form-based review, approve/reject, LinkedIn publish |
 | AI model | Meta-Llama-3.1-8B (HuggingFace/SambaNova) | LinkedIn post generation |
-| Social publishing | LinkedIn UGC API + OAuth2 | Immediate publish after manual approval |
-| State persistence | n8n static data (Docker volume) | Commit SHA tracking |
+| Social publishing | LinkedIn UGC API + OAuth2 | Immediate publish after form approval |
+| Draft queue | n8n static data (Docker volume) | FIFO queue for pending drafts |
+| Cross-workflow API | n8n REST API + API key | WF2 reads/updates WF1's draft queue |
 
 ---
 
 ## Replicating This
 
-The workflow JSON and full documentation are in the [n8n-powered-auto-web-publish](https://github.com/thatsmeadarsh/n8n-powered-auto-web-publish) repo on GitHub. The setup guide covers every credential, every node configuration, and the specific Docker command to run n8n with the right environment variables.
+The workflow JSONs and full documentation are in the [n8n-powered-auto-web-publish](https://github.com/thatsmeadarsh/n8n-powered-auto-web-publish) repo on GitHub. The setup guide covers every credential, every node configuration, and the specific Docker command to run n8n with the right environment variables. You'll import two workflows: one for draft generation, one for review and publish.
 
 The core idea is transferable to any static site generator that deploys to a separate repo — Astro, Jekyll, Eleventy. The GitHub polling pattern works for any CI/CD pipeline that commits to a repository as its final step. Swap LinkedIn for Twitter/X or Bluesky and change one API call.
 
@@ -301,4 +359,4 @@ The hardest part was figuring out that the Pages repo commit was the right event
 
 ---
 
-*The entire pipeline — from this post's markdown file to a live site and an AI-drafted LinkedIn post waiting for approval — ran automatically after `git push`. One review step, by design. That's the point.*
+*The entire pipeline — from this post's markdown file to a live site and an AI-drafted LinkedIn post waiting in a review form — ran automatically after `git push`. One form, one click, by design. That's the point.*
