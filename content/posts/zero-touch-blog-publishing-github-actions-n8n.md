@@ -9,7 +9,7 @@ series = ['Building in Public']
 
 A few weeks ago, I got tired of the same ritual every time I published a blog post. Write the post, push to GitHub, wait for the build, check the site, then — if I remembered — draft a LinkedIn post to share it. Half the time I'd forget the LinkedIn part entirely, or I'd post it days later when the moment had already passed.
 
-So I built a system that does all of it for me. `git push` is the only manual step. Everything after that — building the site, deploying it, generating an AI-written LinkedIn announcement, and scheduling it for review — happens automatically.
+So I built a system that does almost all of it for me. `git push` kicks everything off. The site builds and deploys automatically. n8n detects the new post, generates an AI-written LinkedIn announcement, and then pauses for one deliberate step: I review the draft and approve it before it goes live. That approval gate is intentional — AI-generated text is good, not always great.
 
 Here's exactly how it works.
 
@@ -295,4 +295,4 @@ The hardest part was figuring out that the Pages repo commit was the right event
 
 ---
 
-*The entire pipeline — from this post's markdown file to a live site and a scheduled LinkedIn announcement — ran without any manual steps after `git push`. That's the point.*
+*The entire pipeline — from this post's markdown file to a live site and an AI-drafted LinkedIn post waiting for approval — ran automatically after `git push`. One review step, by design. That's the point.*
