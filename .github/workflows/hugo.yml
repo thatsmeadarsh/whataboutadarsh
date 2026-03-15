@@ -58,21 +58,6 @@ jobs:
       - name: Build Hugo site
         run: hugo
 
-      - name: Commit public folder
-        run: |
-          git config --local user.email "github-actions[bot]@users.noreply.github.com"
-          git config --local user.name "github-actions[bot]"
-          git add public
-          git commit -m "Update public folder" || echo "No changes to commit"
-      
-      - name: Push changes
-        uses: ad-m/github-push-action@master
-        with:
-          github_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-          force: true
-          branch: main
-          directory: public/
-
       - name: Clone target repository
         run: |
           git clone https://github.com/thatsmeadarsh/thatsmeadarsh.github.io.git target_repo
