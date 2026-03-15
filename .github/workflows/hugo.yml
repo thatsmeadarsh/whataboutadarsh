@@ -56,7 +56,7 @@ jobs:
           rm -rf resources/_gen
 
       - name: Build Hugo site
-        run: hugo
+        run: hugo --buildFuture
 
       - name: Clone target repository
         run: |
